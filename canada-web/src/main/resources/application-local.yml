@@ -1,0 +1,29 @@
+spring:
+  cloud:
+    consul:
+      host: consul-service.nadav.com.cn
+      port: 80
+      config:
+        enabled: true
+        prefixes: config
+        format: yaml
+        data-key: data
+        watch:
+          enabled: true
+          delay: 1000
+          wait-time: 55
+      discovery:
+        enabled: true
+        register: true
+        deregister: true
+        instance-group: canada-group
+        prefer-ip-address: true
+        service-name: ${spring.application.name}-${spring.profiles.active}
+        instance-id: ${spring.application.name}-${spring.cloud.client.ip-address}
+        health-check-timeout: 10s
+        health-check-critical-timeout: 30m
+        catalog-services-watch-timeout: 3
+        health-check-path: /actuator/health
+  config:
+    import: 'optional:consul:'
+
